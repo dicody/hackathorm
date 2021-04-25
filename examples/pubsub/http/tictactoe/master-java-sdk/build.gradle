@@ -1,0 +1,37 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group 'org.hackathorm.example'
+version '1.0-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Dapr's core SDK with all features, except Actors
+    implementation 'io.dapr:dapr-sdk:1.0.2'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    // Dapr's SDK integration with SpringBoot
+    implementation 'io.dapr:dapr-sdk-springboot:1.0.2'
+
+    // SpringBoot web starter
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Common
+    implementation 'commons-cli:commons-cli:1.4'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    // Test dependencies
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
