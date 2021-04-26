@@ -7,5 +7,5 @@ import java.util.List;
 @Data
 public class GameMoveRequest {
     private List<List<Character>> board;
-    private Character playerMark;
+    private Character playerSign;
 }

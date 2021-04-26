@@ -38,7 +38,7 @@ public class GameController {
 
     private boolean containsEmptyPosition(List<List<Character>> board) {
         log.info("board: \n{}", board.stream()
-                .map(row -> row.stream().map(mark -> "|" + mark + "|").collect(Collectors.joining()))
+                .map(row -> row.stream().map(sign -> "|" + sign + "|").collect(Collectors.joining()))
                 .collect(Collectors.joining("\n")));
         return board.stream().anyMatch(row -> row.stream().anyMatch(Objects::isNull));
     }
