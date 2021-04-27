@@ -1,29 +1,29 @@
-package service;
+package com.hackathorm.examples.service;
 
-import domain.Player;
-import integration.PlayerClient;
+import com.hackathorm.examples.domain.PlayerDto;
+import com.hackathorm.examples.integration.PlayerClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import reactor.util.function.Tuple2;
 
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 @Slf4j
-@Service
 @RequiredArgsConstructor
-public class GameService {
+public class TicTacToeGame {
 
     private final PlayerClient playerClient;
     private final int COUNT = 3;
 
-    public Optional<Player> runGame(Player player1, Player player2) {
+    public Optional<PlayerDto> runGame(PlayerDto player1, PlayerDto player2) {
         player1.setSign('X');
         player2.setSign('O');
 
         Character[][] board = new Character[COUNT][COUNT];
 
-        Player winner = null;
+        PlayerDto winner = null;
         do {
             board = move(board, player1);
             if (hasWinner(board)) {
@@ -40,11 +40,11 @@ public class GameService {
         return Optional.ofNullable(winner);
     }
 
-    Character[][] move(Character[][] board, Player player) {
-        Character[][] move = null;
+    Character[][] move(Character[][] board, PlayerDto player) {
+        Tuple2<Integer, Integer> move = null;
         try {
-            move = playerClient.getMove(board, player);
-            return validateBoards(board, move);
+            move = playerClient.getMove(board, player).blockOptional().orElseThrow();
+            return validateBoards(board, player, move);
         } catch (IllegalArgumentException e) {
             log.error("Player: {} has violated the rules! Original board: {} and players move: {}", player, board, move);
             throw e;
@@ -55,23 +55,14 @@ public class GameService {
         return Arrays.stream(board).flatMap(Arrays::stream).anyMatch(Objects::isNull);
     }
 
-    private Character[][] validateBoards(Character[][] orig, Character[][] withMove) {
-        IllegalArgumentException ex = new IllegalArgumentException("The board returned from player is not valid!");
+    private Character[][] validateBoards(Character[][] orig, PlayerDto player, Tuple2<Integer, Integer> move) {
+        checkArgument(move.getT1() >= 0 && move.getT1() < COUNT, "x value must be between [0;2]");
+        checkArgument(move.getT2() >= 0 && move.getT2() < COUNT, "y value must be between [0;2]");
+        checkArgument(orig[move.getT1()][move.getT2()] == null,
+                "invalid coordinates provided, value already exists in cell:" + move);
 
-        List<Character> newBoard = Arrays.stream(withMove).flatMap(Arrays::stream).collect(Collectors.toList());
-        List<Character> origBoard = Arrays.stream(orig).flatMap(Arrays::stream).collect(Collectors.toList());
-
-        if (newBoard.size() != origBoard.size()) throw ex;
-
-        int count = 0;
-        for (int i = 0; i < newBoard.size(); i++) {
-            if (!Objects.equals(newBoard.get(i), origBoard.get(i))) {
-                count++;
-            }
-        }
-
-        if (count != 1) throw ex;
-
+        Character[][] withMove = Arrays.copyOf(orig, orig.length);
+        withMove[move.getT1()][move.getT2()] = player.getSign();
         return withMove;
     }
 
