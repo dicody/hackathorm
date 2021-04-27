@@ -3,14 +3,13 @@ package service;
 import domain.Player;
 import integration.PlayerClient;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class GameService {
@@ -18,7 +17,7 @@ public class GameService {
     private final PlayerClient playerClient;
     private final int COUNT = 3;
 
-    public Player runGame(Player player1, Player player2) {
+    public Optional<Player> runGame(Player player1, Player player2) {
         player1.setSign('X');
         player2.setSign('O');
 
@@ -30,19 +29,30 @@ public class GameService {
             if (hasWinner(board)) {
                 winner = player1;
             }
-            if (winner == null) {
+            if (winner == null && nextMovePossible(board)) {
                 board = move(board, player2);
                 if (hasWinner(board)) {
                     winner = player2;
                 }
             }
-        } while (winner == null);
+        } while (winner == null && nextMovePossible(board));
 
-        return winner;
+        return Optional.ofNullable(winner);
     }
 
     Character[][] move(Character[][] board, Player player) {
-        return validateBoards(board, playerClient.getMove(board, player));
+        Character[][] move = null;
+        try {
+            move = playerClient.getMove(board, player);
+            return validateBoards(board, move);
+        } catch (IllegalArgumentException e) {
+            log.error("Player: {} has violated the rules! Original board: {} and players move: {}", player, board, move);
+            throw e;
+        }
+    }
+
+    private boolean nextMovePossible(Character[][] board) {
+        return Arrays.stream(board).flatMap(Arrays::stream).anyMatch(Objects::isNull);
     }
 
     private Character[][] validateBoards(Character[][] orig, Character[][] withMove) {
@@ -70,7 +80,7 @@ public class GameService {
     }
 
     boolean anyMatchInRow(Character[][] board) {
-        return Arrays.stream(board).anyMatch(row -> allMatch(Arrays.stream(row)));
+        return Arrays.stream(board).anyMatch(this::allMatch);
     }
 
     boolean anyMatchInColumns(Character[][] board) {
@@ -86,11 +96,15 @@ public class GameService {
     }
 
     private boolean anyMatchInDiagonals(Character[][] board) {
-        return allMatch(Stream.of(board[0][0], board[1][1], board[2][2]))
-                || allMatch(Stream.of(board[0][2], board[1][1], board[2][0]));
+        return allMatch(board[0][0], board[1][1], board[2][2])
+                || allMatch(board[0][2], board[1][1], board[2][0]);
     }
 
-    private boolean allMatch(Stream<Character> seq) {
-        return seq.filter(Objects::nonNull).distinct().count() == 1;
+    private boolean allMatch(Character... chars) {
+        return allMatch(Arrays.asList(chars));
+    }
+
+    private boolean allMatch(List<Character> chars) {
+        return chars.stream().filter(Objects::nonNull).anyMatch(ch -> Collections.frequency(chars, ch) == 3);
     }
 }
