@@ -1,2 +1,2 @@
 # hackathorm
-Platform for running a Hackathons (coding competition events)
+Platform for running Hackathons (coding competition events).
