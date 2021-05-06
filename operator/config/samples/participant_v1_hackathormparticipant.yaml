@@ -1,0 +1,7 @@
+apiVersion: participant.hackathorm.org/v1
+kind: HackathormParticipant
+metadata:
+  name: hackathormparticipant-sample
+spec:
+  # Add fields here
+  foo: bar

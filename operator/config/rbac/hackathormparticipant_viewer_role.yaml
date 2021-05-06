@@ -1,0 +1,20 @@
+# permissions for end users to view hackathormparticipants.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: hackathormparticipant-viewer-role
+rules:
+- apiGroups:
+  - participant.hackathorm.org
+  resources:
+  - hackathormparticipants
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - participant.hackathorm.org
+  resources:
+  - hackathormparticipants/status
+  verbs:
+  - get

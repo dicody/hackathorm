@@ -6,4 +6,14 @@ plugins:
   scorecard.sdk.operatorframework.io/v2: {}
 projectName: hackathorm
 repo: github.com/dicody/hackathorm
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: hackathorm.org
+  group: participant
+  kind: HackathormParticipant
+  path: github.com/dicody/hackathorm/api/v1
+  version: v1
 version: "3"
