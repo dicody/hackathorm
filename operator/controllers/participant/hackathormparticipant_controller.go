@@ -52,7 +52,7 @@ type HackathormParticipantReconciler struct {
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.7.2/pkg/reconcile
 func (r *HackathormParticipantReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log.WithValues("hackathormparticipant", req.NamespacedName)
-	log.Info("reconcile execution started")
+	log.Info("reconcile execution started", "req", req)
 
 	// player's meta
 	labels := map[string]string{
@@ -67,11 +67,12 @@ func (r *HackathormParticipantReconciler) Reconcile(ctx context.Context, req ctr
 		Labels:    labels,
 	}
 
-	// validate participant state
+	// initialize participant
 	participant := &participantv1.HackathormParticipant{}
 	err := r.Client.Get(ctx, req.NamespacedName, participant)
 	if err != nil {
-		log.Info("Participant deleted, cleaning previously created resources..")
+		// todo replace with control references (https://www.openshift.com/blog/kubernetes-operators-best-practices)
+		log.Info("participant not found")
 		err = r.Client.Delete(ctx, &appsv1.Deployment{ObjectMeta: objectMeta})
 		err = r.Client.Delete(ctx, &corev1.Service{ObjectMeta: objectMeta})
 		if err != nil {
@@ -89,6 +90,7 @@ func (r *HackathormParticipantReconciler) Reconcile(ctx context.Context, req ctr
 	}
 
 	// deployment
+	// todo read deployment spec from players spec
 	deployment := &appsv1.Deployment{}
 	err = r.Client.Get(ctx, objectKey, deployment)
 	if err == nil {
@@ -113,7 +115,6 @@ func (r *HackathormParticipantReconciler) Reconcile(ctx context.Context, req ctr
 				},
 			},
 		})
-
 		if err != nil {
 			log.Error(err, "failed to create deployment!")
 			return ctrl.Result{}, err
@@ -121,6 +122,7 @@ func (r *HackathormParticipantReconciler) Reconcile(ctx context.Context, req ctr
 	}
 
 	// service
+	// todo create service spec based on deployment spec
 	service := &corev1.Service{}
 	err = r.Client.Get(ctx, objectKey, service)
 	if err == nil {

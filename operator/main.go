@@ -71,8 +71,8 @@ func main() {
 	ctrl.SetLogger(zap.New(zap.UseFlagOptions(&opts)))
 
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
-		Scheme:                 scheme,
-		Namespace:              namespace,
+		Scheme: scheme,
+		//Namespace:              namespace,
 		MetricsBindAddress:     metricsAddr,
 		Port:                   9443,
 		HealthProbeBindAddress: probeAddr,
@@ -86,12 +86,13 @@ func main() {
 
 	if err = (&participantcontrollers.HackathormParticipantReconciler{
 		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("HackathormParticipant"),
+		Log:    ctrl.Log.WithName("controllers").WithName("participant").WithName("HackathormParticipant"),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "HackathormParticipant")
 		os.Exit(1)
 	}
+
 	if err = (&eventcontrollers.HackathormEventReconciler{
 		Client: mgr.GetClient(),
 		Log:    ctrl.Log.WithName("controllers").WithName("event").WithName("HackathormEvent"),
