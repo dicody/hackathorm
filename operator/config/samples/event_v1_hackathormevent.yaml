@@ -1,0 +1,7 @@
+apiVersion: event.hackathorm.org/v1
+kind: HackathormEvent
+metadata:
+  name: hackathormevent-sample
+spec:
+  # Add fields here
+  foo: bar

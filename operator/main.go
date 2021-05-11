@@ -31,8 +31,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
+	eventv1 "github.com/dicody/hackathorm/apis/event/v1"
 	participantv1 "github.com/dicody/hackathorm/apis/participant/v1"
-	participantctrl "github.com/dicody/hackathorm/controllers/participant"
+	eventcontrollers "github.com/dicody/hackathorm/controllers/event"
+	participantcontrollers "github.com/dicody/hackathorm/controllers/participant"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -45,6 +47,7 @@ func init() {
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
 
 	utilruntime.Must(participantv1.AddToScheme(scheme))
+	utilruntime.Must(eventv1.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
 }
 
@@ -81,12 +84,20 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&participantctrl.HackathormParticipantReconciler{
+	if err = (&participantcontrollers.HackathormParticipantReconciler{
 		Client: mgr.GetClient(),
 		Log:    ctrl.Log.WithName("controllers").WithName("HackathormParticipant"),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "HackathormParticipant")
+		os.Exit(1)
+	}
+	if err = (&eventcontrollers.HackathormEventReconciler{
+		Client: mgr.GetClient(),
+		Log:    ctrl.Log.WithName("controllers").WithName("event").WithName("HackathormEvent"),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "HackathormEvent")
 		os.Exit(1)
 	}
 	//+kubebuilder:scaffold:builder

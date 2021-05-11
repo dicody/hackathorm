@@ -1,0 +1,24 @@
+# permissions for end users to edit hackathormevents.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: hackathormevent-editor-role
+rules:
+- apiGroups:
+  - event.hackathorm.org
+  resources:
+  - hackathormevents
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - event.hackathorm.org
+  resources:
+  - hackathormevents/status
+  verbs:
+  - get

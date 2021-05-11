@@ -17,4 +17,13 @@ resources:
   kind: HackathormParticipant
   path: github.com/dicody/hackathorm/api/v1
   version: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: hackathorm.org
+  group: event
+  kind: HackathormEvent
+  path: github.com/dicody/hackathorm/apis/event/v1
+  version: v1
 version: "3"

@@ -18,7 +18,6 @@ package participant
 
 import (
 	"context"
-	"github.com/dicody/hackathorm/apis/participant/v1"
 	"github.com/go-logr/logr"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -27,6 +26,8 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	participantv1 "github.com/dicody/hackathorm/apis/participant/v1"
 )
 
 // HackathormParticipantReconciler reconciles a HackathormParticipant object
@@ -67,10 +68,10 @@ func (r *HackathormParticipantReconciler) Reconcile(ctx context.Context, req ctr
 	}
 
 	// validate participant state
-	participant := &v1.HackathormParticipant{}
+	participant := &participantv1.HackathormParticipant{}
 	err := r.Client.Get(ctx, req.NamespacedName, participant)
 	if err != nil {
-		log.Error(err, "Participant not found! Cleaning previously created resources..")
+		log.Info("Participant deleted, cleaning previously created resources..")
 		err = r.Client.Delete(ctx, &appsv1.Deployment{ObjectMeta: objectMeta})
 		err = r.Client.Delete(ctx, &corev1.Service{ObjectMeta: objectMeta})
 		if err != nil {
@@ -145,7 +146,7 @@ func (r *HackathormParticipantReconciler) Reconcile(ctx context.Context, req ctr
 // SetupWithManager sets up the controller with the Manager.
 func (r *HackathormParticipantReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&v1.HackathormParticipant{}).
+		For(&participantv1.HackathormParticipant{}).
 		Owns(&appsv1.Deployment{}).
 		Owns(&corev1.Service{}).
 		Complete(r)

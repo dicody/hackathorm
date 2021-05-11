@@ -7,6 +7,32 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
+  - event.hackathorm.org
+  resources:
+  - hackathormevents
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - event.hackathorm.org
+  resources:
+  - hackathormevents/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - event.hackathorm.org
+  resources:
+  - hackathormevents/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
   - participant.hackathorm.org
   resources:
   - hackathormparticipants
