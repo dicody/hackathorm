@@ -31,8 +31,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	participantv1 "github.com/dicody/hackathorm/api/v1"
-	"github.com/dicody/hackathorm/controllers"
+	participantv1 "github.com/dicody/hackathorm/apis/participant/v1"
+	participantctrl "github.com/dicody/hackathorm/controllers/participant"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -81,7 +81,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controllers.HackathormParticipantReconciler{
+	if err = (&participantctrl.HackathormParticipantReconciler{
 		Client: mgr.GetClient(),
 		Log:    ctrl.Log.WithName("controllers").WithName("HackathormParticipant"),
 		Scheme: mgr.GetScheme(),
