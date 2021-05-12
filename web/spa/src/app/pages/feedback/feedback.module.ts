@@ -1,16 +1,17 @@
-import { NgModule } from '@angular/core';
-import { NbCardModule } from '@nebular/theme';
-
-import { ThemeModule } from '../../@theme/theme.module';
-import { FeedbackComponent } from './feedback.component';
+import {NgModule} from '@angular/core';
+import {NbButtonModule, NbCardModule, NbInputModule, NbRadioModule} from '@nebular/theme';
+import {FeedbackComponent} from './feedback.component';
 
 @NgModule({
   imports: [
     NbCardModule,
-    ThemeModule,
+    NbInputModule,
+    NbButtonModule,
+    NbRadioModule,
   ],
   declarations: [
     FeedbackComponent,
   ],
 })
-export class FeedbackModule { }
+export class FeedbackModule {
+}
