@@ -13,7 +13,6 @@
           "options": {
             "aot": true,
             "preserveSymlinks": true,
-            "rebaseRootRelativeCssUrls": true,
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -29,6 +28,7 @@
               "node_modules/typeface-exo/index.css",
               "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
               "node_modules/ionicons/scss/ionicons.scss",
+              "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "node_modules/socicon/css/socicon.css",
               "node_modules/nebular-icons/scss/nebular-icons.scss",
               "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
@@ -49,7 +49,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -96,6 +95,7 @@
               "node_modules/typeface-exo/index.css",
               "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
               "node_modules/ionicons/scss/ionicons.scss",
+              "node_modules/font-awesome/scss/font-awesome.scss",
               "node_modules/socicon/css/socicon.css",
               "node_modules/nebular-icons/scss/nebular-icons.scss",
               "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
@@ -148,8 +148,11 @@
   "defaultProject": "ngx-admin-demo",
   "schematics": {
     "@schematics/angular:component": {
+      "prefix": "ngx",
       "style": "scss"
     },
-    "@schematics/angular:directive": {}
+    "@schematics/angular:directive": {
+      "prefix": "ngx"
+    }
   }
 }

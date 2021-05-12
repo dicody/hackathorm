@@ -4,6 +4,7 @@ import {NgModule} from '@angular/core';
 import {PagesComponent} from './pages.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {FeedbackComponent} from './feedback/feedback.component';
+import {ActivityComponent} from './activity/activity.component';
 
 const routes: Routes = [{
   path: '',
@@ -12,6 +13,10 @@ const routes: Routes = [{
     {
       path: 'dashboard',
       component: DashboardComponent,
+    },
+    {
+      path: 'activity',
+      component: ActivityComponent,
     },
     {
       path: 'feedback',

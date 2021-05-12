@@ -6,6 +6,7 @@ import {PagesComponent} from './pages.component';
 import {DashboardModule} from './dashboard/dashboard.module';
 import {PagesRoutingModule} from './pages-routing.module';
 import {FeedbackModule} from './feedback/feedback.module';
+import {ActivityModule} from './activity/activity.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import {FeedbackModule} from './feedback/feedback.module';
     NbMenuModule,
     DashboardModule,
     FeedbackModule,
+    ActivityModule,
   ],
   declarations: [
     PagesComponent,
