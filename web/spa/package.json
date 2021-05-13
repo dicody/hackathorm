@@ -30,6 +30,7 @@
     "postinstall": "ngcc --properties es2015 es5 browser module main --first-only --create-ivy-entry-points --tsconfig \"./src/tsconfig.app.json\""
   },
   "dependencies": {
+    "@akveo/ng2-completer": "^9.0.1",
     "@angular/animations": "^11.0.9",
     "@angular/cdk": "11.0.4",
     "@angular/common": "^11.0.9",
@@ -43,6 +44,7 @@
     "@nebular/eva-icons": "7.0.0",
     "@nebular/security": "7.0.0",
     "@nebular/theme": "7.0.0",
+    "@swimlane/ngx-charts": "^14.0.0",
     "bootstrap": "4.3.1",
     "classlist.js": "1.1.20150312",
     "core-js": "2.5.1",
