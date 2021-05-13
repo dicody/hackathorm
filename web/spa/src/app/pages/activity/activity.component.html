@@ -1,7 +1,48 @@
 <nb-card>
-  <nb-card-header>Submitted versions</nb-card-header>
+  <nb-card-header>
+    Rules
+  </nb-card-header>
   <nb-card-body>
-    <ng2-smart-table [settings]="settings" [source]="source">
-    </ng2-smart-table>
+    <h4>Tic-Tac-Toe</h4>
+    <ol class="mb-5">
+      <li>The game is played on a grid that's 3 squares by 3 squares.</li>
+      <li>You are X, your friend (or the computer in this case) is O. ...</li>
+      <li>The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.</li>
+      <li>When all 9 squares are full, the game is over.</li>
+    </ol>
+    <a href="https://www.exploratorium.edu/brain_explorer/tictactoe.html" target="_blank">source</a>
   </nb-card-body>
 </nb-card>
+
+<div class="row">
+  <div class="col-md-12">
+    <nb-card class="inline-form-card">
+      <nb-card-header>Submit new version</nb-card-header>
+      <nb-card-body>
+        <form class="form-inline">
+          <input type="text" nbInput fullWidth placeholder="Docker image name or URL to Dockerfile">
+          <!--          <input type="text" nbInput fullWidth placeholder="Drag & Drop">-->
+          <button type="submit" nbButton status="primary">Submit</button>
+        </form>
+      </nb-card-body>
+
+    </nb-card>
+  </div>
+</div>
+
+<nb-card>
+  <nb-card-header>Submitted versions</nb-card-header>
+  <nb-card-body>
+    <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
+  </nb-card-body>
+</nb-card>
+
+<div class="row">
+  <div class="col-md-12">
+    <nb-card class="inline-form-card">
+      <nb-card-header>Latest logs</nb-card-header>
+      <nb-card-body>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

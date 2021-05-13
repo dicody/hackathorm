@@ -17,7 +17,7 @@ export class ActivityComponent {
       id: {
         title: '#',
         type: 'number',
-        sortDirection: 'desc'
+        sortDirection: 'desc',
       },
       name: {
         title: 'Name',
