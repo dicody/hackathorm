@@ -34,7 +34,7 @@ import { SecurityCamerasData } from './data/security-cameras';
 
 import { UserService } from './mock/users.service';
 import { ElectricityService } from './mock/electricity.service';
-import { SmartTableService } from './mock/smart-table.service';
+import { ActivityService } from './mock/activity.service';
 import { UserActivityService } from './mock/user-activity.service';
 import { OrdersChartService } from './mock/orders-chart.service';
 import { ProfitChartService } from './mock/profit-chart.service';
@@ -74,7 +74,7 @@ const socialLinks = [
 const DATA_SERVICES = [
   { provide: UserData, useClass: UserService },
   { provide: ElectricityData, useClass: ElectricityService },
-  { provide: SmartTableData, useClass: SmartTableService },
+  { provide: SmartTableData, useClass: ActivityService },
   { provide: UserActivityData, useClass: UserActivityService },
   { provide: OrdersChartData, useClass: OrdersChartService },
   { provide: ProfitChartData, useClass: ProfitChartService },

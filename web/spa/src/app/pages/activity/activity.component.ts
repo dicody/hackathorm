@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {LocalDataSource} from 'ng2-smart-table';
 
-import {SmartTableData} from '../../@core/data/smart-table';
+import {ActivityService} from '../../@core/mock/activity.service';
 
 
 @Component({
@@ -36,7 +36,7 @@ export class ActivityComponent {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: SmartTableData) {
+  constructor(private service: ActivityService) {
     const data = this.service.getData();
     this.source.load(data);
   }
