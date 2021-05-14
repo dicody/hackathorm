@@ -14,9 +14,12 @@ export class FeedbackComponent {
     rate: 'LIKE',
     comment: '',
   });
+  feedbackProvided: boolean;
+  private feedbackProvidedKey = 'feedbackProvided';
 
   constructor(private feedbackService: FeedbackService,
               private formBuilder: FormBuilder) {
+    this.feedbackProvided = Boolean(localStorage.getItem(this.feedbackProvidedKey));
   }
 
   onSubmit(): void {
@@ -24,7 +27,8 @@ export class FeedbackComponent {
       .add(this.feedbackForm.value)
       .subscribe(_ => {
         this.feedbackForm.reset();
-        this.feedbackForm.disable();
+        this.feedbackProvided = true;
+        localStorage.setItem(this.feedbackProvidedKey, String(this.feedbackProvided));
       });
   }
 }
