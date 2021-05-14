@@ -11,4 +11,5 @@
 export const environment = {
   production: false,
   feedbackUrl: '/api/feedback',
+  activityUrl: '/api/activity',
 };

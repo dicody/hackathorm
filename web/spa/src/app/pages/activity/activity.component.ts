@@ -1,8 +1,4 @@
 import {Component} from '@angular/core';
-import {LocalDataSource} from 'ng2-smart-table';
-
-import {ActivityService} from '../../@core/mock/activity.service';
-
 
 @Component({
   selector: 'ngx-activity',
@@ -10,34 +6,4 @@ import {ActivityService} from '../../@core/mock/activity.service';
   templateUrl: './activity.component.html',
 })
 export class ActivityComponent {
-  settings = {
-    hideSubHeader: true,
-    actions: {add: false, edit: false, delete: false},
-    columns: {
-      id: {
-        title: '#',
-        type: 'number',
-        sortDirection: 'desc',
-      },
-      name: {
-        title: 'Name',
-        type: 'string',
-      },
-      submittedAt: {
-        title: 'Submitted At',
-        type: 'string',
-      },
-      submittedBy: {
-        title: 'Submitted By',
-        type: 'string',
-      },
-    },
-  };
-
-  source: LocalDataSource = new LocalDataSource();
-
-  constructor(private service: ActivityService) {
-    const data = this.service.getData();
-    this.source.load(data);
-  }
 }

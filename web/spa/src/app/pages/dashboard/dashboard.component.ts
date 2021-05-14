@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {LocalDataSource} from 'ng2-smart-table';
 import {DashboardService} from '../../@core/mock/dashboard.service';
 
@@ -43,7 +43,10 @@ export class DashboardComponent {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private service: DashboardService) {
-    const data = this.service.getData();
-    this.source.load(data);
+    this.service
+      .getData()
+      .subscribe(data => {
+        this.source.load(data);
+      });
   }
 }

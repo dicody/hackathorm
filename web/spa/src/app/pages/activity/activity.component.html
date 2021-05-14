@@ -19,13 +19,8 @@
     <nb-card class="inline-form-card">
       <nb-card-header>Submit new version</nb-card-header>
       <nb-card-body>
-        <form class="form-inline">
-          <input type="text" nbInput fullWidth placeholder="Docker image name or URL to Dockerfile">
-          <!--          <input type="text" nbInput fullWidth placeholder="Drag & Drop">-->
-          <button type="submit" nbButton status="primary">Submit</button>
-        </form>
+        <ngx-activity-submit></ngx-activity-submit>
       </nb-card-body>
-
     </nb-card>
   </div>
 </div>
@@ -33,7 +28,7 @@
 <nb-card>
   <nb-card-header>Submitted versions</nb-card-header>
   <nb-card-body>
-    <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
+    <ngx-activity-versions></ngx-activity-versions>
   </nb-card-body>
 </nb-card>
 

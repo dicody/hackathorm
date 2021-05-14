@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
 import {SmartTableData} from '../data/smart-table';
+import {from, Observable} from 'rxjs';
+import {toArray} from 'rxjs/operators';
 
 @Injectable()
 export class DashboardService extends SmartTableData {
@@ -31,7 +33,8 @@ export class DashboardService extends SmartTableData {
     },
   ];
 
-  getData() {
-    return this.data;
+  getData(): Observable<any> {
+    return from(this.data)
+      .pipe(toArray());
   }
 }

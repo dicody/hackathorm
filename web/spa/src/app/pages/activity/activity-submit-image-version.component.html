@@ -1,0 +1,7 @@
+<form class="form-inline" [formGroup]="imageForm" (ngSubmit)="onSubmit()">
+  <input id="name" type="text" nbInput placeholder="Name" formControlName="name">
+  <input id="imageUrl" type="text" nbInput fullWidth placeholder="Docker image name or URL to Dockerfile"
+         formControlName="imageUrl">
+  <!--          <input type="text" nbInput fullWidth placeholder="Drag & Drop">-->
+  <button id="submit" type="submit" nbButton status="primary" [disabled]="!imageForm.valid">Submit</button>
+</form>
