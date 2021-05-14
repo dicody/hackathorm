@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {NbButtonModule, NbCardModule, NbInputModule, NbRadioModule} from '@nebular/theme';
 import {FeedbackComponent} from './feedback.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -8,6 +9,7 @@ import {FeedbackComponent} from './feedback.component';
     NbInputModule,
     NbButtonModule,
     NbRadioModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     FeedbackComponent,

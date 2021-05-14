@@ -1,25 +1,33 @@
 <div class="row">
   <div class="col-md-6">
-    <nb-card class="inline-form-card">
+    <nb-card [hidden]="!feedbackForm.disabled">
+      <nb-card-header>Thank you for feedback!</nb-card-header>
+    </nb-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <nb-card class="inline-form-card" [hidden]="feedbackForm.disabled">
       <nb-card-header>How did we do?</nb-card-header>
       <nb-card-body>
-        <form>
+        <form [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
           <div class="form-group row">
             <div class="col-sm-9">
-              <nb-radio-group>
-                <nb-radio>Liked</nb-radio>
-                <nb-radio>Disliked</nb-radio>
-                <nb-radio>Neutral</nb-radio>
+              <nb-radio-group id="rate" formControlName="rate" [disabled]="feedbackForm.disabled">
+                <nb-radio id="liked" value="LIKE">Liked</nb-radio>
+                <nb-radio id="disliked" value="DISLIKE">Disliked</nb-radio>
+                <nb-radio id="neutral" value="NEUTRAL">Neutral</nb-radio>
               </nb-radio-group>
             </div>
           </div>
           <div class="form-group row">
             <label for="message" class="label col-sm-3 col-form-label">Text (optional)</label>
-            <textarea nbInput fullWidth id="message" placeholder="Text"></textarea>
+            <textarea nbInput fullWidth id="message" placeholder="Text" formControlName="comment"></textarea>
           </div>
           <div class="form-group row">
             <div class="offset-sm-5 col-sm-6">
-              <button type="submit" nbButton status="primary">Submit</button>
+              <button type="submit" nbButton status="primary" [disabled]="feedbackForm.disabled">Submit</button>
             </div>
           </div>
         </form>
