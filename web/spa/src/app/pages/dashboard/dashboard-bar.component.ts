@@ -25,7 +25,7 @@ export class DashboardBarComponent {
         {name: 'won', value: 6},
         {name: 'lost', value: 3},
         {name: 'draw', value: 1},
-      ]
+      ],
     },
     {
       name: 'p1',
@@ -33,7 +33,7 @@ export class DashboardBarComponent {
         {name: 'won', value: 3},
         {name: 'lost', value: 6},
         {name: 'draw', value: 1},
-      ]
+      ],
     },
     {name: 'p3', series: []},
   ];
@@ -47,7 +47,7 @@ export class DashboardBarComponent {
   showYAxis = true;
   yAxisLabel = 'Win Rate';
   colorScheme = {
-    domain: ['#00d68f', '#ff3d71', '#fa0']
+    domain: ['#00d68f', '#ff3d71', '#fa0'],
   };
 }
 
