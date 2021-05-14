@@ -24,7 +24,9 @@ public class FeedbackHandler {
     }
 
     public Mono<ServerResponse> insert(ServerRequest request) {
+        log.info("new feedback request");
         return request.bodyToMono(Feedback.class)
+                .doOnNext(feedback -> log.info("got feedback from request body: {}", feedback))
                 .flatMap(service::insert)
                 .flatMap(feedback ->
                         ServerResponse.ok()
