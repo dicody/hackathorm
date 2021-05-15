@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 
 import {FormBuilder, Validators} from '@angular/forms';
 import {ActivityService} from './activity.service';
@@ -11,6 +11,8 @@ import {ActivityService} from './activity.service';
   providers: [ActivityService],
 })
 export class ActivitySubmitImageComponent {
+
+  @Output() submittedEvent = new EventEmitter<object>();
 
   imageForm = this.formBuilder.group({
     name: ['', Validators.required],
@@ -25,7 +27,7 @@ export class ActivitySubmitImageComponent {
     if (this.imageForm.dirty && this.imageForm.valid) {
       this.activityService
         .add(this.imageForm.value)
-        .subscribe();
+        .subscribe(_ => this.submittedEvent.emit({}));
     }
   }
 }

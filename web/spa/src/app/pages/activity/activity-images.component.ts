@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 
 import {ActivityService} from './activity.service';
 import {LocalDataSource} from 'ng2-smart-table';
@@ -12,7 +12,9 @@ import {LocalDataSource} from 'ng2-smart-table';
   `,
   providers: [ActivityService],
 })
-export class ActivityImagesComponent {
+export class ActivityImagesComponent implements OnChanges {
+  @Input() refreshEvent: object;
+
   settings = {
     hideSubHeader: true,
     actions: {add: false, edit: false, delete: false},
@@ -20,7 +22,6 @@ export class ActivityImagesComponent {
       id: {
         title: '#',
         type: 'number',
-        sortDirection: 'desc',
       },
       name: {
         title: 'Name',
@@ -29,6 +30,7 @@ export class ActivityImagesComponent {
       submittedAt: {
         title: 'Submitted At',
         type: 'string',
+        sortDirection: 'desc',
       },
       submittedBy: {
         title: 'Submitted By',
@@ -40,6 +42,14 @@ export class ActivityImagesComponent {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private service: ActivityService) {
+    this.loadData();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.loadData();
+  }
+
+  private loadData() {
     this.service
       .getData()
       .subscribe(data => this.source.load(data));

@@ -19,7 +19,7 @@
     <nb-card class="inline-form-card">
       <nb-card-header>Submit new image</nb-card-header>
       <nb-card-body>
-        <ngx-activity-submit></ngx-activity-submit>
+        <ngx-activity-submit (submittedEvent)="newImageSubmittedEvent($event)"></ngx-activity-submit>
       </nb-card-body>
     </nb-card>
   </div>
@@ -28,7 +28,7 @@
 <nb-card>
   <nb-card-header>Submitted images</nb-card-header>
   <nb-card-body>
-    <ngx-activity-images></ngx-activity-images>
+    <ngx-activity-images [refreshEvent]="imageSubmittedEvent"></ngx-activity-images>
   </nb-card-body>
 </nb-card>
 

@@ -6,4 +6,9 @@ import {Component} from '@angular/core';
   templateUrl: './activity.component.html',
 })
 export class ActivityComponent {
+  imageSubmittedEvent: object;
+
+  newImageSubmittedEvent(imageSubmittedEvent: object) {
+    this.imageSubmittedEvent = imageSubmittedEvent;
+  }
 }
