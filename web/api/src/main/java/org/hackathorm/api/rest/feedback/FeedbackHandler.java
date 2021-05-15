@@ -22,10 +22,11 @@ public class FeedbackHandler {
 
     @NonNull
     public Mono<ServerResponse> get(ServerRequest request, String pathVariable) {
-        log.info("get feedback request by id: {}", request.path());
+        String id = request.pathVariable(pathVariable);
+        log.info("get feedback request by id: {}", id);
         return ServerResponse.ok()
                 .contentType(APPLICATION_JSON)
-                .body(service.get(request.pathVariable(pathVariable)), Feedback.class);
+                .body(service.get(id), Feedback.class);
     }
 
     @NonNull

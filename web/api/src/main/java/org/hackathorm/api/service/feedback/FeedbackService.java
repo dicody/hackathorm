@@ -15,18 +15,18 @@ import static org.hackathorm.api.conf.MongoConstants.FEEDBACKS_COLLECTION_NAME;
 @RequiredArgsConstructor
 public class FeedbackService {
 
-    private final ReactiveMongoTemplate mongoTemplate;
+    private final ReactiveMongoTemplate mongo;
 
     public Flux<Feedback> list() {
-        return mongoTemplate.findAll(Feedback.class, FEEDBACKS_COLLECTION_NAME);
+        return mongo.findAll(Feedback.class, FEEDBACKS_COLLECTION_NAME);
     }
 
     public Mono<Feedback> insert(Feedback feedback) {
-        return mongoTemplate.insert(feedback, FEEDBACKS_COLLECTION_NAME);
+        return mongo.insert(feedback, FEEDBACKS_COLLECTION_NAME);
     }
 
     public Mono<Feedback> get(String id) {
         Query query = Query.query(Criteria.where("_id").is(id));
-        return mongoTemplate.findOne(query, Feedback.class, FEEDBACKS_COLLECTION_NAME);
+        return mongo.findOne(query, Feedback.class, FEEDBACKS_COLLECTION_NAME);
     }
 }

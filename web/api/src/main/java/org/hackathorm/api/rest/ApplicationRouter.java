@@ -31,7 +31,9 @@ public class ApplicationRouter {
                 .andNest(
                         path("/images"),
                                 route(GET(""), imageHandler::list)
-                                .andRoute(POST(""), imageHandler::insert))
+                                .andRoute(POST(""), imageHandler::insert)
+                                .andRoute(GET("/{id}"), request -> imageHandler.get(request, "id"))
+                )
         );
     }
 }

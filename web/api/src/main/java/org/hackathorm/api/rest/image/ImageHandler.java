@@ -18,12 +18,21 @@ import static org.springframework.web.reactive.function.server.ServerResponse.cr
 @RequiredArgsConstructor
 public class ImageHandler {
 
-    private final ImageService imageService;
+    private final ImageService service;
+
+    @NonNull
+    public Mono<ServerResponse> get(ServerRequest request, String pathVariable) {
+        String id = request.pathVariable(pathVariable);
+        log.info("got image request by id: {}", id);
+        return ServerResponse.ok()
+                .contentType(APPLICATION_JSON)
+                .body(service.get(id), Image.class);
+    }
 
     @NonNull
     public Mono<ServerResponse> list(ServerRequest serverRequest) {
         log.info("list images request");
-        return ServerResponse.ok().contentType(APPLICATION_JSON).body(imageService.list(), Image.class);
+        return ServerResponse.ok().contentType(APPLICATION_JSON).body(service.list(), Image.class);
     }
 
     @NonNull
@@ -31,7 +40,7 @@ public class ImageHandler {
         log.info("new image request");
         return request.bodyToMono(Image.class)
                 .doOnNext(image -> log.info("got image: {}", image))
-                .flatMap(imageService::insert)
+                .flatMap(service::insert)
                 .flatMap(image -> created(request.uriBuilder().pathSegment(image.getId()).build()).build());
     }
 }
