@@ -21,7 +21,7 @@ export class ActivityImagesComponent implements OnChanges {
     columns: {
       id: {
         title: '#',
-        type: 'number',
+        type: 'string',
       },
       name: {
         title: 'Name',
