@@ -7,10 +7,10 @@ import {ActivityService} from './activity.service';
 @Component({
   selector: 'ngx-activity-submit',
   styleUrls: ['./activity.component.scss'],
-  templateUrl: './activity-submit-image-version.component.html',
+  templateUrl: './activity-submit-image.component.html',
   providers: [ActivityService],
 })
-export class ActivitySubmitImageVersionComponent {
+export class ActivitySubmitImageComponent {
 
   imageForm = this.formBuilder.group({
     name: ['', Validators.required],
@@ -24,7 +24,7 @@ export class ActivitySubmitImageVersionComponent {
   onSubmit(): void {
     if (this.imageForm.dirty && this.imageForm.valid) {
       this.activityService
-        .submitNewVersion(this.imageForm.value)
+        .add(this.imageForm.value)
         .subscribe();
     }
   }

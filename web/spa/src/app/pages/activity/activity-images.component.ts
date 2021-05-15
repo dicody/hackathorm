@@ -5,14 +5,14 @@ import {LocalDataSource} from 'ng2-smart-table';
 
 
 @Component({
-  selector: 'ngx-activity-versions',
+  selector: 'ngx-activity-images',
   styleUrls: ['./activity.component.scss'],
   template: `
     <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
   `,
   providers: [ActivityService],
 })
-export class ActivityImageVersionsComponent {
+export class ActivityImagesComponent {
   settings = {
     hideSubHeader: true,
     actions: {add: false, edit: false, delete: false},

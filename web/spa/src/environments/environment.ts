@@ -10,6 +10,6 @@
 
 export const environment = {
   production: false,
-  feedbackUrl: '/api/feedback',
-  activityUrl: '/api/activity',
+  feedbackUrl: '/api/feedbacks',
+  imageUrl: '/api/images',
 };

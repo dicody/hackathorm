@@ -3,8 +3,8 @@ import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {NbButtonModule, NbCardModule, NbInputModule} from '@nebular/theme';
 
 import {ActivityComponent} from './activity.component';
-import {ActivitySubmitImageVersionComponent} from './activity-submit-image-version.component';
-import {ActivityImageVersionsComponent} from './activity-image-versions.component';
+import {ActivitySubmitImageComponent} from './activity-submit-image.component';
+import {ActivityImagesComponent} from './activity-images.component';
 import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
@@ -17,8 +17,8 @@ import {ReactiveFormsModule} from '@angular/forms';
   ],
   declarations: [
     ActivityComponent,
-    ActivitySubmitImageVersionComponent,
-    ActivityImageVersionsComponent,
+    ActivitySubmitImageComponent,
+    ActivityImagesComponent,
   ],
 })
 export class ActivityModule {

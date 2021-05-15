@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {ImageVersion} from './image-version';
+import {Image} from './image';
 import {SmartTableData} from '../../@core/data/smart-table';
 import {Observable} from 'rxjs';
 
@@ -13,23 +13,21 @@ const httpOptions = {
 
 @Injectable()
 export class ActivityService extends SmartTableData {
-  activityUrl: string;
-  imageVersionUrl: string;
+  imageUrl: string;
 
   constructor(private http: HttpClient) {
     super();
-    this.activityUrl = environment.activityUrl;
-    this.imageVersionUrl = this.activityUrl + '/image';
+    this.imageUrl = environment.imageUrl;
   }
 
-  submitNewVersion(imageVersion: ImageVersion) {
-    return this.http.post<ImageVersion>
+  add(image: Image) {
+    return this.http.post<Image>
       // todo catch error
-      (this.imageVersionUrl , imageVersion, httpOptions);
+      (this.imageUrl, image, httpOptions);
   }
 
 
-  getData(): Observable<ImageVersion[]> {
-    return this.http.get<ImageVersion[]>(this.imageVersionUrl);
+  getData(): Observable<Image[]> {
+    return this.http.get<Image[]>(this.imageUrl);
   }
 }
