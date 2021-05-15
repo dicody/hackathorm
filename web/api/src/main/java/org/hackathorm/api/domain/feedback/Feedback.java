@@ -4,10 +4,10 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import static org.hackathorm.api.service.feedback.MongoConstants.FEEDBACK_COLLECTION_NAME;
+import static org.hackathorm.api.conf.MongoConstants.FEEDBACKS_COLLECTION_NAME;
 
 @Data
-@Document(collection = FEEDBACK_COLLECTION_NAME)
+@Document(collection = FEEDBACKS_COLLECTION_NAME)
 public class Feedback {
     @Id
     private String id;
