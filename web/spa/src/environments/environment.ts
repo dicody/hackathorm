@@ -12,4 +12,5 @@ export const environment = {
   production: false,
   feedbackUrl: '/api/feedbacks',
   imageUrl: '/api/images',
+  dashboardUrl: '/api/games',
 };

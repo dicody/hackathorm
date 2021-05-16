@@ -13,21 +13,21 @@ const httpOptions = {
 
 @Injectable()
 export class ActivityService extends SmartTableData {
-  imageUrl: string;
+  url: string;
 
   constructor(private http: HttpClient) {
     super();
-    this.imageUrl = environment.imageUrl;
+    this.url = environment.imageUrl;
   }
 
   add(image: Image) {
     return this.http.post<Image>
       // todo catch error
-      (this.imageUrl, image, httpOptions);
+      (this.url, image, httpOptions);
   }
 
 
   getData(): Observable<Image[]> {
-    return this.http.get<Image[]>(this.imageUrl);
+    return this.http.get<Image[]>(this.url);
   }
 }

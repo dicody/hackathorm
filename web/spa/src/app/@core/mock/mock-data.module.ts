@@ -20,12 +20,10 @@ import { CountryOrderService } from './country-order.service';
 import { StatsProgressBarService } from './stats-progress-bar.service';
 import { VisitorsAnalyticsService } from './visitors-analytics.service';
 import { SecurityCamerasService } from './security-cameras.service';
-import {DashboardService} from './dashboard.service';
 
 const SERVICES = [
   UserService,
   ElectricityService,
-  DashboardService,
   UserActivityService,
   OrdersChartService,
   ProfitChartService,

@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard.component';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {DashboardBarComponent} from './dashboard-bar.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
+import {DashboardGamesComponent} from './dashboard-games.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
   declarations: [
     DashboardComponent,
     DashboardBarComponent,
+    DashboardGamesComponent,
   ],
 })
 export class DashboardModule { }
