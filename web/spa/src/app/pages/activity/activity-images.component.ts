@@ -46,7 +46,10 @@ export class ActivityImagesComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.loadData();
+    // firstChange happens on load
+    if (!changes.refreshEvent.firstChange) {
+      this.loadData();
+    }
   }
 
   private loadData() {

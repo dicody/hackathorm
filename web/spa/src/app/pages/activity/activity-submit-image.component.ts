@@ -16,7 +16,7 @@ export class ActivitySubmitImageComponent {
 
   imageForm = this.formBuilder.group({
     name: ['', Validators.required],
-    imageUrl: ['', Validators.required],
+    url: ['', Validators.required],
   });
 
   constructor(private activityService: ActivityService,
