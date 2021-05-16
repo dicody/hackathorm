@@ -18,4 +18,7 @@ export class DashboardService extends SmartTableData {
     return this.http.get<Game[]>(this.url);
   }
 
+  getStatistics(): Observable<any> {
+    return this.http.get(this.url + '/statistics');
+  }
 }
