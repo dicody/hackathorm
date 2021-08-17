@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class PlayerDto {
+    private String gameId;
     private String name;
     private String serviceAppId;
-    private char sign;
+    private Character sign;
 }

@@ -25,17 +25,12 @@ public class PlayersController {
     @PostMapping(path = "/players")
     public Mono<Void> handleMessage(@RequestBody CloudEvent cloudEvent) {
         return Mono.fromRunnable(() -> {
-            PlayerRequest request;
-            if (cloudEvent.getSource() != null) {
-                log.info("got player request data from event: {}", cloudEvent.getData());
-                request = objectMapper.convertValue(cloudEvent.getData(), PlayerRequest.class);
-            } else {
-                request = (PlayerRequest) cloudEvent.getData();
-            }
+            PlayerRequest request = objectMapper.convertValue(cloudEvent.getData(), PlayerRequest.class);
             log.info("got player request: {}", request);
 
             // todo define model for player request!
             PlayerDto player = new PlayerDto();
+            player.setGameId(request.getGameId());
             player.setName(request.getName());
             player.setServiceAppId(request.getServiceId());
             gameService.addPlayerToQueue(player);

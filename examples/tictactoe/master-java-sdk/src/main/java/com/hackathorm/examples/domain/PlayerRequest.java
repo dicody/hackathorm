@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class PlayerRequest {
+    private String gameId;
     private String name;
     private String serviceId;
 }

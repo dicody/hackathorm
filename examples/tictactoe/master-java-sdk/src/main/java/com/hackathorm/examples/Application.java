@@ -1,5 +1,6 @@
 package com.hackathorm.examples;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -7,6 +8,7 @@ import org.apache.commons.cli.Options;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@Slf4j
 @SpringBootApplication
 public class Application {
 
@@ -21,6 +23,7 @@ public class Application {
         int port = Integer.parseInt(cmd.getOptionValue("port"));
 
         // Start Dapr's callback endpoint.
+        log.info("starting master");
         start(port);
     }
 
