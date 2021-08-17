@@ -1,6 +1,7 @@
 package com.hackathorm.examples.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hackathorm.examples.configuration.AppConfigProperties;
 import com.hackathorm.examples.domain.PlayerDto;
 import com.hackathorm.examples.domain.PlayerRequest;
 import com.hackathorm.examples.service.GameService;
@@ -21,7 +22,7 @@ public class PlayersController {
     private final GameService gameService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Topic(name = "players", pubsubName = "pubsub")
+    @Topic(name = "players", pubsubName = AppConfigProperties.PUBSUB_NAME)
     @PostMapping(path = "/players")
     public Mono<Void> handleMessage(@RequestBody CloudEvent cloudEvent) {
         return Mono.fromRunnable(() -> {

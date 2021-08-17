@@ -8,9 +8,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfigProperties {
 
+    public static final String PUBSUB_NAME = "${pubsub.name:pubsub}";
+
     @Value("${admin.gameresults.topic:gameResults}")
     private String gameResultsTopic;
-    @Value("${pubsub.name:pubsub}")
+    @Value(PUBSUB_NAME)
     private String pubsubName;
 
 }

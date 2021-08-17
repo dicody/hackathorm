@@ -30,14 +30,16 @@ public class GameService {
                 .groupBy(PlayerDto::getGameId)
                 .flatMap(players -> players.window(2))
                 .flatMap(players -> players.collectList().map(list -> Tuples.of(list.get(0), list.get(1))))
-                .doOnNext(players -> {
+                .flatMap(players -> {
                     String gameId = players.getT1().getGameId();
                     Optional<PlayerDto> winner = new TicTacToeGame(playerClient).runGame(players.getT1(), players.getT2());
                     log.info("got WINNER: {} between: {} and {}", winner, players.getT1(), players.getT2());
-                    winner.ifPresentOrElse(
-                            adminClient::notifyWithWinner,
-                            () -> adminClient.notifyWithTie(gameId));
+                    return winner
+                            .map(adminClient::notifyWithWinner)
+                            .orElseGet(() -> adminClient.notifyWithTie(gameId))
+                            .map(v -> gameId);
                 })
+                .doOnNext(gameId -> log.info("notification send to admin component with game results: {}", gameId))
                 // todo notify with error?
                 .onErrorContinue((throwable, o) -> log.error("error occurred with players: {}", o, throwable))
                 .subscribe();
