@@ -3,6 +3,7 @@ package org.hackathorm.api.rest.image;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hackathorm.api.domain.image.Image;
+import org.hackathorm.api.domain.image.ImageDto;
 import org.hackathorm.api.service.image.ImageService;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import static org.hackathorm.api.conf.Formatters.ONLY_TIME_FORMAT;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.server.ServerResponse.created;
 
@@ -32,7 +34,15 @@ public class ImageHandler {
     @NonNull
     public Mono<ServerResponse> list(ServerRequest serverRequest) {
         log.info("list images request");
-        return ServerResponse.ok().contentType(APPLICATION_JSON).body(service.list(), Image.class);
+        return ServerResponse.ok()
+                .contentType(APPLICATION_JSON)
+                .body(service
+                        .list()
+                        .map(image ->
+                                new ImageDto(
+                                        image.getId(), image.getName(),
+                                        image.getSubmittedBy().getName(),
+                                        ONLY_TIME_FORMAT.format(image.getSubmittedAt()))), ImageDto.class);
     }
 
     @NonNull

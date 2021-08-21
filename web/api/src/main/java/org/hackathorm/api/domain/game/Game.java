@@ -1,6 +1,7 @@
 package org.hackathorm.api.domain.game;
 
 import lombok.Data;
+import org.hackathorm.api.domain.image.Image;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,13 +17,13 @@ public class Game {
     @Id
     private String id;
     private long sequenceNumber;
-    private PlayersVersion winner;
-    private List<PlayersVersion> players;
+    private Image winner;
+    private List<Image> players;
     private String info;
     private Date startedAt;
     private Date finishedAt;
 
-    public Optional<PlayersVersion> getWinner() {
+    public Optional<Image> getWinner() {
         return Optional.ofNullable(winner);
     }
 

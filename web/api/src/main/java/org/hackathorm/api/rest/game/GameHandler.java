@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.hackathorm.api.domain.game.Game;
 import org.hackathorm.api.domain.game.GameResponse;
 import org.hackathorm.api.domain.game.PlayerGameSeriesResponse;
-import org.hackathorm.api.domain.game.PlayersVersion;
 import org.hackathorm.api.domain.image.Image;
 import org.hackathorm.api.domain.player.Player;
 import org.springframework.lang.NonNull;
@@ -45,20 +44,16 @@ public class GameHandler {
         p1.setId("1");
         Image p1Image = new Image();
         p1Image.setName("first version");
+        p1Image.setSubmittedBy(p1);
         Player p2 = new Player();
         p2.setName("p2");
         p2.setId("2");
         Image p2Image = new Image();
         p2Image.setName("just do it");
-        PlayersVersion pv1 = new PlayersVersion();
-        pv1.setPlayer(p1);
-        pv1.setImage(p1Image);
-        PlayersVersion pv2 = new PlayersVersion();
-        pv2.setPlayer(p2);
-        pv2.setImage(p2Image);
+        p2Image.setSubmittedBy(p2);
 
-        game.setWinner(pv1);
-        game.setPlayers(List.of(pv1, pv2));
+        game.setWinner(p1Image);
+        game.setPlayers(List.of(p1Image, p2Image));
         game.setInfo("not much info to add..");
 
         return ServerResponse.ok()

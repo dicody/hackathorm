@@ -17,13 +17,16 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @RequiredArgsConstructor
 public class ApplicationRouter {
 
+    public static final String ROOT_PATH = "/api";
+    public static final String GAMES_PATH = "/games";
+
     private final FeedbackHandler feedbackHandler;
     private final ImageHandler imageHandler;
     private final GameHandler gameHandler;
 
     @Bean
     public RouterFunction<ServerResponse> routes() {
-        return nest(path("/api"),
+        return nest(path(ROOT_PATH),
                 nest(
                         path("/feedbacks"),
                                 route(GET(""), feedbackHandler::list)
@@ -37,9 +40,8 @@ public class ApplicationRouter {
                                 .andRoute(GET("/{id}"), request -> imageHandler.get(request, "id"))
                 )
                 .andNest(
-                        path("/games"),
+                        path(GAMES_PATH),
                                 route(GET(""), gameHandler::list)
-                                .andRoute(POST(""), gameHandler::insert)
                                 .andRoute(GET("/statistics"), gameHandler::statistics)
                                 .andRoute(GET("/{id}"), request -> gameHandler.get(request, "id"))
                 )
