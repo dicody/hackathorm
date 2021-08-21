@@ -5,4 +5,7 @@
  */
 export const environment = {
   production: true,
+  feedbackUrl: '/api/feedbacks',
+  imageUrl: '/api/images',
+  dashboardUrl: '/api/games',
 };
