@@ -3,7 +3,7 @@ package org.hackathorm.api.rest.image;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hackathorm.api.domain.image.Image;
-import org.hackathorm.api.domain.image.ImageDto;
+import org.hackathorm.api.domain.image.ImageResponse;
 import org.hackathorm.api.service.image.ImageService;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -39,10 +39,10 @@ public class ImageHandler {
                 .body(service
                         .list()
                         .map(image ->
-                                new ImageDto(
+                                new ImageResponse(
                                         image.getId(), image.getName(),
                                         image.getSubmittedBy().getName(),
-                                        ONLY_TIME_FORMAT.format(image.getSubmittedAt()))), ImageDto.class);
+                                        ONLY_TIME_FORMAT.format(image.getSubmittedAt()))), ImageResponse.class);
     }
 
     @NonNull

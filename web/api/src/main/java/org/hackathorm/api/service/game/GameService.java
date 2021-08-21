@@ -4,7 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.hackathorm.api.domain.game.Game;
 import org.hackathorm.api.repository.game.GameRepository;
 import org.hackathorm.api.service.DateService;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -45,5 +48,12 @@ public class GameService {
                     game.setFinishedAt(dateService.getCurrentDate());
                     return repository.save(game);
                 });
+    }
+
+    @NotNull
+    public Mono<Long> getLastGameNumber() {
+        return repository.get(PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "number")))
+                .map(Game::getNumber)
+                .reduce(0L, (def, nr) -> nr);
     }
 }

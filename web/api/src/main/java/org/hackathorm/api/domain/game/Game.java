@@ -16,7 +16,7 @@ import static org.hackathorm.api.conf.MongoConstants.GAMES_COLLECTION_NAME;
 public class Game {
     @Id
     private String id;
-    private long sequenceNumber;
+    private long number;
     private Image winner;
     private List<Image> players;
     private String info;

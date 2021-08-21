@@ -18,19 +18,21 @@ public class GameResponse {
 
     public static GameResponse from(Game game) {
         GameResponse gameResponse = new GameResponse();
-        gameResponse.id = String.valueOf(game.getSequenceNumber());
+        gameResponse.id = String.valueOf(game.getNumber());
         gameResponse.info = game.getInfo();
         gameResponse.startedAt = ONLY_TIME_FORMAT.format(game.getStartedAt());
-        game.getFinishedAt().map(ONLY_TIME_FORMAT::format).ifPresent(gameResponse::setFinishedAt);
-
-        game.getWinner().map(GameResponse::toString).ifPresent(gameResponse::setWinner);
+        gameResponse.finishedAt = game.getFinishedAt().map(ONLY_TIME_FORMAT::format).orElse("Not finished yet..");
+        gameResponse
+                .setWinner(game.getFinishedAt()
+                        .map(gameFinished -> game.getWinner().map(GameResponse::imageToString).orElse("Tie"))
+                        .orElse("No winner yet.."));
         gameResponse.players = game.getPlayers().stream()
-                .map(GameResponse::toString)
+                .map(GameResponse::imageToString)
                 .collect(Collectors.joining(", "));
         return gameResponse;
     }
 
-    private static String toString(Image game) {
+    private static String imageToString(Image game) {
         return game.getSubmittedBy().getName() + ":" + game.getName();
     }
 }

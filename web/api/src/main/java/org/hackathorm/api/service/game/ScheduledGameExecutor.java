@@ -30,12 +30,14 @@ public class ScheduledGameExecutor {
     public void scheduleNextGame() {
         log.debug("scheduled game executor started");
         getLatestImagesPairThatNotYetPlayed()
-                .flatMap(tuple -> {
+                .zipWith(gameService.getLastGameNumber(), (tuple, gameNr) -> {
                     Game game = new Game();
+                    game.setNumber(gameNr + 1);
                     game.setPlayers(List.of(tuple.getT1(), tuple.getT2()));
                     game.setStartedAt(dateService.getCurrentDate());
                     return gameService.insert(game);
                 })
+                .flatMap(game -> game)
                 .subscribe(
                         game -> log.debug("scheduleNextGame consumer: {}", game),
                         throwable -> log.error("scheduleNextGame error", throwable),
