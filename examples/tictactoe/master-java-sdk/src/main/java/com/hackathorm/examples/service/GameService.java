@@ -6,10 +6,8 @@ import com.hackathorm.examples.integration.PlayerClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Sinks;
-import reactor.util.function.Tuples;
+import reactor.core.publisher.Mono;
 
-import javax.annotation.PostConstruct;
 import java.util.Optional;
 
 @Slf4j
@@ -19,36 +17,17 @@ public class GameService {
 
     private final AdminClient adminClient;
     private final PlayerClient playerClient;
-    private final Sinks.Many<PlayerDto> sinks = Sinks.unsafe().many().multicast().directBestEffort();
 
-    @PostConstruct
-    void init() {
-        // add custom rules for the game (replace Flux if necessary)
-        sinks
-                .asFlux()
-                .doOnNext(player -> log.info("player added to queue: {}", player))
-                .groupBy(PlayerDto::getGameId)
-                .flatMap(players -> players.window(2))
-                .flatMap(players -> players.collectList().map(list -> Tuples.of(list.get(0), list.get(1))))
-                .flatMap(players -> {
-                    String gameId = players.getT1().getGameId();
-                    Optional<PlayerDto> winner = new TicTacToeGame(playerClient).runGame(players.getT1(), players.getT2());
-                    log.info("got WINNER: {} between: {} and {}", winner, players.getT1(), players.getT2());
+    public Mono<String> runGame(String gameId, String p1Id, String p1ServiceId, String p2Id, String p2ServiceId) {
+        PlayerDto p1 = new PlayerDto(p1Id, p1ServiceId, 'X');
+        PlayerDto p2 = new PlayerDto(p2Id, p2ServiceId, 'O');
+
+        Optional<PlayerDto> winner = new TicTacToeGame(playerClient).runGame(p1, p2);
+                    log.info("got WINNER: {} between: {} and {}", winner, p1, p2);
                     return winner
-                            .map(adminClient::notifyWithWinner)
+                            .map(playerDto -> adminClient.notifyWithWinner(gameId, playerDto.getId()))
                             .orElseGet(() -> adminClient.notifyWithTie(gameId))
                             .map(v -> gameId);
-                })
-                .doOnNext(gameId -> log.info("notification send to admin component with game results: {}", gameId))
-                // todo notify with error?
-                .onErrorContinue((throwable, o) -> log.error("error occurred with players: {}", o, throwable))
-                .subscribe();
-    }
 
-    public void addPlayerToQueue(PlayerDto player) {
-        sinks.emitNext(player, (signalType, emitResult) -> {
-            log.error("error on emit! signalType: {}, emitResult: {}", signalType, emitResult);
-            return false;
-        });
     }
 }

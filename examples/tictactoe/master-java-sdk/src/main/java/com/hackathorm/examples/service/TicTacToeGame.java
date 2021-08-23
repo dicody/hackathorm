@@ -18,9 +18,6 @@ public class TicTacToeGame {
     private final int COUNT = 3;
 
     public Optional<PlayerDto> runGame(PlayerDto player1, PlayerDto player2) {
-        player1.setSign('X');
-        player2.setSign('O');
-
         Character[][] board = new Character[COUNT][COUNT];
 
         PlayerDto winner = null;

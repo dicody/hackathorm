@@ -7,5 +7,5 @@ import lombok.Data;
 @Builder
 public class GameResultsDto {
     private final String gameId;
-    private final String winner;
+    private final String winnerId;
 }

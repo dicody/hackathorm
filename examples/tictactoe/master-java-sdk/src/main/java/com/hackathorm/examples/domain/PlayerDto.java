@@ -1,11 +1,10 @@
 package com.hackathorm.examples.domain;
 
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 public class PlayerDto {
-    private String gameId;
-    private String name;
-    private String serviceAppId;
-    private Character sign;
+    String id;
+    String serviceAppId;
+    Character sign;
 }

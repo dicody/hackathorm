@@ -7,7 +7,6 @@ plugins {
 
 group = 'org.hackathorm'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
 configurations {
 	compileOnly {
@@ -29,7 +28,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	// Dapr's core SDK with all features, except Actors
+	implementation 'io.dapr:dapr-sdk:1.0.2'
+	implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+	// Dapr's SDK integration with SpringBoot
+	implementation 'io.dapr:dapr-sdk-springboot:1.0.2'
+
 	// Common
+	compileOnly 'org.jetbrains:annotations:16.0.1'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	// Test dependencies

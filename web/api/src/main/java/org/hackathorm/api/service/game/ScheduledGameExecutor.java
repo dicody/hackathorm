@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hackathorm.api.domain.game.Game;
 import org.hackathorm.api.domain.image.Image;
 import org.hackathorm.api.service.DateService;
+import org.hackathorm.api.service.gamemaster.GameMasterService;
 import org.hackathorm.api.service.image.ImageService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,7 @@ public class ScheduledGameExecutor {
     private final ImageService imageService;
     private final GameService gameService;
     private final DateService dateService;
+    private final GameMasterService gameMasterService;
 
     @Scheduled(fixedDelay = 10000) // 10s
     public void scheduleNextGame() {
@@ -38,6 +40,11 @@ public class ScheduledGameExecutor {
                     return gameService.insert(game);
                 })
                 .flatMap(game -> game)
+                .doOnNext(game -> log.debug("new game created: {}", game))
+
+                .flatMap(gameMasterService::publishNewGame)
+                .doOnNext(game -> log.debug("player published to game master"))
+
                 .subscribe(
                         game -> log.debug("scheduleNextGame consumer: {}", game),
                         throwable -> log.error("scheduleNextGame error", throwable),

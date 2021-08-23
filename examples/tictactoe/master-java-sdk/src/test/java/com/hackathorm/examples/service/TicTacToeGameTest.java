@@ -32,8 +32,6 @@ public class TicTacToeGameTest {
     private TicTacToeGame ticTacToeGame;
     @Mock
     private PlayerClient playerClient;
-    @Mock
-    private PlayerDto player;
 
     @SuppressWarnings("unused")
     private static Stream<Arguments> providerForWinnerCheck() {
@@ -82,8 +80,8 @@ public class TicTacToeGameTest {
 
     @Test
     public void runGame_firstPlayerWins() {
-        PlayerDto player1 = new PlayerDto();
-        PlayerDto player2 = new PlayerDto();
+        PlayerDto player1 = new PlayerDto("p1", "p1", 'X');
+        PlayerDto player2 = new PlayerDto("p2", "p2", 'O');
 
         when(playerClient.getMove(any(), eq(player1)))
                 .thenReturn(just(of(0, 0)))
@@ -101,8 +99,8 @@ public class TicTacToeGameTest {
 
     @Test
     public void runGame_secondPlayerWins() {
-        PlayerDto player1 = new PlayerDto();
-        PlayerDto player2 = new PlayerDto();
+        PlayerDto player1 = new PlayerDto("p1", "p1", 'X');
+        PlayerDto player2 = new PlayerDto("p2", "p2", 'O');
 
         when(playerClient.getMove(any(), eq(player1)))
                 .thenReturn(just(of(0, 0)))
@@ -121,8 +119,8 @@ public class TicTacToeGameTest {
 
     @Test
     public void runGame_draw() {
-        PlayerDto player1 = new PlayerDto();
-        PlayerDto player2 = new PlayerDto();
+        PlayerDto player1 = new PlayerDto("p1", "p1", 'X');
+        PlayerDto player2 = new PlayerDto("p2", "p2", 'O');
 
         when(playerClient.getMove(any(), eq(player1)))
                 .thenReturn(just(of(0, 0)))
@@ -143,11 +141,11 @@ public class TicTacToeGameTest {
 
     @Test
     public void shouldNotViolateOnPlayersMove() {
+        PlayerDto player = new PlayerDto("p", "p", 'O');
         Character[][] board = {
                 new Character[]{'X', 'O', 'X'},
                 new Character[]{'X', 'O', 'X'},
                 new Character[]{'O', null, null}};
-        when(player.getSign()).thenReturn('O');
         when(playerClient.getMove(board, player)).thenReturn(just(of(2, 2)));
         Character[][] boardWithPlayersMove = ticTacToeGame.move(board, player);
         assertThat(boardWithPlayersMove,
@@ -159,6 +157,7 @@ public class TicTacToeGameTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldViolateOnXValueBelowPossible() {
+        PlayerDto player = new PlayerDto("p", "p", 'O');
         Character[][] board = {
                 new Character[]{'X', 'O', 'X'},
                 new Character[]{'X', 'O', 'X'},
@@ -170,6 +169,7 @@ public class TicTacToeGameTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldViolateOnXValueAbovePossible() {
+        PlayerDto player = new PlayerDto("p", "p", 'O');
         Character[][] board = {
                 new Character[]{'X', 'O', 'X'},
                 new Character[]{'X', 'O', 'X'},
@@ -181,6 +181,7 @@ public class TicTacToeGameTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldViolateOnYValueBelowPossible() {
+        PlayerDto player = new PlayerDto("p", "p", 'O');
         Character[][] board = {
                 new Character[]{'X', 'O', 'X'},
                 new Character[]{'X', 'O', 'X'},
@@ -192,6 +193,7 @@ public class TicTacToeGameTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldViolateOnYValueAbovePossible() {
+        PlayerDto player = new PlayerDto("p", "p", 'O');
         Character[][] board = {
                 new Character[]{'X', 'O', 'X'},
                 new Character[]{'X', 'O', 'X'},
