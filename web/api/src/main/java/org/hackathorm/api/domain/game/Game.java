@@ -17,14 +17,15 @@ public class Game {
     @Id
     private String id;
     private long number;
-    private Image winner;
-    private List<Image> players;
+    private String winnerId;
+    private Image player1;
+    private Image player2;
     private String info;
     private Date startedAt;
     private Date finishedAt;
 
-    public Optional<Image> getWinner() {
-        return Optional.ofNullable(winner);
+    public Optional<String> getWinner() {
+        return Optional.ofNullable(winnerId);
     }
 
     public Optional<Date> getFinishedAt() {

@@ -17,10 +17,10 @@ public class GameMasterService {
         GameRequest data = new GameRequest();
         data.setGameId(game.getId());
         // todo playerId != playerServiceId
-        data.setP1Id(game.getPlayers().get(0).getSubmittedBy().getId());
-        data.setP1ServiceId(game.getPlayers().get(0).getSubmittedBy().getId());
-        data.setP2Id(game.getPlayers().get(1).getSubmittedBy().getId());
-        data.setP2ServiceId(game.getPlayers().get(1).getSubmittedBy().getId());
+        data.setP1Id(game.getPlayer1().getSubmittedBy().getId());
+        data.setP1ServiceId(game.getPlayer1().getSubmittedBy().getId());
+        data.setP2Id(game.getPlayer2().getSubmittedBy().getId());
+        data.setP2ServiceId(game.getPlayer2().getSubmittedBy().getId());
         return gameMasterClient.publishPlayer(data);
     }
 }

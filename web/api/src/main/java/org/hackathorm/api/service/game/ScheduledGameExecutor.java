@@ -13,6 +13,7 @@ import reactor.core.publisher.Flux;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -35,7 +36,8 @@ public class ScheduledGameExecutor {
                 .zipWith(gameService.getLastGameNumber(), (tuple, gameNr) -> {
                     Game game = new Game();
                     game.setNumber(gameNr + 1);
-                    game.setPlayers(List.of(tuple.getT1(), tuple.getT2()));
+                    game.setPlayer1(tuple.getT1());
+                    game.setPlayer2(tuple.getT2());
                     game.setStartedAt(dateService.getCurrentDate());
                     return gameService.insert(game);
                 })
@@ -60,7 +62,7 @@ public class ScheduledGameExecutor {
                         (images, games) -> images.stream()
                                 .flatMap(image1 -> images.stream()
                                         .filter(image2 -> !image2.equals(image1)
-                                                && (games.isEmpty() || games.stream().noneMatch(game -> game.getPlayers().containsAll(List.of(image1, image2)))))
+                                                && (games.isEmpty() || games.stream().noneMatch(game -> Arrays.asList(game.getPlayer1(), game.getPlayer2()).containsAll(List.of(image1, image2)))))
                                         .map(image2 -> Set.of(image1, image2)))
                                 .collect(Collectors.toSet()))
                 .flatMapIterable(images -> images)

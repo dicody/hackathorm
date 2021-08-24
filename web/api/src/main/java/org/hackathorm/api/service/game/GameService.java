@@ -37,14 +37,7 @@ public class GameService {
     public Mono<Game> update(String gameId, @Nullable String winnerId) {
         return repository.findById(gameId)
                 .flatMap(game -> {
-                    game.setWinner(
-                            Optional.ofNullable(winnerId)
-                                    .map(winner -> game.getPlayers().stream()
-                                            .filter(player -> player.getSubmittedBy().getId().equals(winnerId))
-                                            .findFirst()
-                                            .orElseThrow())
-                                    .orElse(null)
-                    );
+                    game.setWinnerId(winnerId);
                     game.setFinishedAt(dateService.getCurrentDate());
                     return repository.save(game);
                 });

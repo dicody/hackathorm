@@ -3,7 +3,9 @@ package org.hackathorm.api.domain.game;
 import lombok.Data;
 import org.hackathorm.api.domain.image.Image;
 
+import java.util.Arrays;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.hackathorm.api.conf.Formatters.ONLY_TIME_FORMAT;
 
@@ -24,9 +26,9 @@ public class GameResponse {
         gameResponse.finishedAt = game.getFinishedAt().map(ONLY_TIME_FORMAT::format).orElse("Not finished yet..");
         gameResponse
                 .setWinner(game.getFinishedAt()
-                        .map(gameFinished -> game.getWinner().map(GameResponse::imageToString).orElse("Tie"))
+                        .map(gameFinished -> game.getWinner().orElse("Tie"))
                         .orElse("No winner yet.."));
-        gameResponse.players = game.getPlayers().stream()
+        gameResponse.players = Stream.of(game.getPlayer1(), game.getPlayer2())
                 .map(GameResponse::imageToString)
                 .collect(Collectors.joining(", "));
         return gameResponse;
