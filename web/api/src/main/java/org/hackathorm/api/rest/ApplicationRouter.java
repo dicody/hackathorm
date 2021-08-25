@@ -3,7 +3,7 @@ package org.hackathorm.api.rest;
 import lombok.RequiredArgsConstructor;
 import org.hackathorm.api.rest.feedback.FeedbackHandler;
 import org.hackathorm.api.rest.game.GameHandler;
-import org.hackathorm.api.rest.image.ImageHandler;
+import org.hackathorm.api.rest.image.SolutionImageHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -21,7 +21,7 @@ public class ApplicationRouter {
     public static final String GAMES_PATH = "/games";
 
     private final FeedbackHandler feedbackHandler;
-    private final ImageHandler imageHandler;
+    private final SolutionImageHandler solutionImageHandler;
     private final GameHandler gameHandler;
 
     @Bean
@@ -35,9 +35,9 @@ public class ApplicationRouter {
                 )
                 .andNest(
                         path("/images"),
-                                route(GET(""), imageHandler::list)
-                                .andRoute(POST(""), imageHandler::insert)
-                                .andRoute(GET("/{id}"), request -> imageHandler.get(request, "id"))
+                                route(GET(""), solutionImageHandler::list)
+                                .andRoute(POST(""), solutionImageHandler::insert)
+                                .andRoute(GET("/{id}"), request -> solutionImageHandler.get(request, "id"))
                 )
                 .andNest(
                         path(GAMES_PATH),

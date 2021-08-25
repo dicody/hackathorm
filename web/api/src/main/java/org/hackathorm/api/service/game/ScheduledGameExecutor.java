@@ -3,10 +3,10 @@ package org.hackathorm.api.service.game;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hackathorm.api.domain.game.Game;
-import org.hackathorm.api.domain.image.Image;
+import org.hackathorm.api.domain.image.SolutionImage;
 import org.hackathorm.api.service.DateService;
 import org.hackathorm.api.service.gamemaster.GameMasterService;
-import org.hackathorm.api.service.image.ImageService;
+import org.hackathorm.api.service.image.SolutionImageService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ScheduledGameExecutor {
 
-    private final ImageService imageService;
+    private final SolutionImageService solutionImageService;
     private final GameService gameService;
     private final DateService dateService;
     private final GameMasterService gameMasterService;
@@ -53,8 +53,8 @@ public class ScheduledGameExecutor {
                         () -> log.debug("scheduleNextGame onComplete"));
     }
 
-    private Flux<Tuple2<Image, Image>> getLatestImagesPairThatNotYetPlayed() {
-        return imageService.list()
+    private Flux<Tuple2<SolutionImage, SolutionImage>> getLatestImagesPairThatNotYetPlayed() {
+        return solutionImageService.list()
                 .groupBy(image -> image.getSubmittedBy().getId())
                 .flatMap(grouped -> grouped.reduce((image1, image2) -> image1.getSubmittedAt().compareTo(image2.getSubmittedAt()) > 0 ? image1 : image2))
                 .collect(Collectors.toSet())
@@ -67,7 +67,7 @@ public class ScheduledGameExecutor {
                                 .collect(Collectors.toSet()))
                 .flatMapIterable(images -> images)
                 .map(iterable -> {
-                    Iterator<Image> iterator = iterable.iterator();
+                    Iterator<SolutionImage> iterator = iterable.iterator();
                     return Tuples.of(iterator.next(), iterator.next());
                 });
     }

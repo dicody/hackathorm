@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Data
 @Document(collection = MongoConstants.IMAGES_COLLECTION_NAME)
-public class Image {
+public class SolutionImage {
     @Id
     private String id;
     private String url;

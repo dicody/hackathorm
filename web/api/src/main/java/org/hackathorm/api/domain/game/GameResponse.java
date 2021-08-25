@@ -1,9 +1,8 @@
 package org.hackathorm.api.domain.game;
 
 import lombok.Data;
-import org.hackathorm.api.domain.image.Image;
+import org.hackathorm.api.domain.image.SolutionImage;
 
-import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -34,7 +33,7 @@ public class GameResponse {
         return gameResponse;
     }
 
-    private static String imageToString(Image game) {
+    private static String imageToString(SolutionImage game) {
         return game.getSubmittedBy().getName() + ":" + game.getName();
     }
 }

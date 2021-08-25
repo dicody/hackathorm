@@ -1,12 +1,11 @@
 package org.hackathorm.api.domain.game;
 
 import lombok.Data;
-import org.hackathorm.api.domain.image.Image;
+import org.hackathorm.api.domain.image.SolutionImage;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import static org.hackathorm.api.conf.MongoConstants.GAMES_COLLECTION_NAME;
@@ -18,8 +17,8 @@ public class Game {
     private String id;
     private long number;
     private String winnerId;
-    private Image player1;
-    private Image player2;
+    private SolutionImage player1;
+    private SolutionImage player2;
     private String info;
     private Date startedAt;
     private Date finishedAt;

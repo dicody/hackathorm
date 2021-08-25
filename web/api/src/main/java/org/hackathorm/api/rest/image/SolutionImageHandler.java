@@ -2,9 +2,9 @@ package org.hackathorm.api.rest.image;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hackathorm.api.domain.image.Image;
+import org.hackathorm.api.domain.image.SolutionImage;
 import org.hackathorm.api.domain.image.ImageResponse;
-import org.hackathorm.api.service.image.ImageService;
+import org.hackathorm.api.service.image.SolutionImageService;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -18,9 +18,9 @@ import static org.springframework.web.reactive.function.server.ServerResponse.cr
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ImageHandler {
+public class SolutionImageHandler {
 
-    private final ImageService service;
+    private final SolutionImageService service;
 
     @NonNull
     public Mono<ServerResponse> get(ServerRequest request, String pathVariable) {
@@ -28,7 +28,7 @@ public class ImageHandler {
         log.info("got image request by id: {}", id);
         return ServerResponse.ok()
                 .contentType(APPLICATION_JSON)
-                .body(service.get(id), Image.class);
+                .body(service.get(id), SolutionImage.class);
     }
 
     @NonNull
@@ -48,7 +48,7 @@ public class ImageHandler {
     @NonNull
     public Mono<ServerResponse> insert(ServerRequest request) {
         log.info("new image request");
-        return request.bodyToMono(Image.class)
+        return request.bodyToMono(SolutionImage.class)
                 .doOnNext(image -> log.info("got image: {}", image))
                 .flatMap(service::insert)
                 .flatMap(image -> created(request.uriBuilder().pathSegment(image.getId()).build()).build());
