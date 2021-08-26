@@ -36,8 +36,7 @@ public class ScheduledGameExecutor {
                 .zipWith(gameService.getLastGameNumber(), (tuple, gameNr) -> {
                     Game game = new Game();
                     game.setNumber(gameNr + 1);
-                    game.setPlayer1(tuple.getT1());
-                    game.setPlayer2(tuple.getT2());
+                    game.setPlayers(List.of(tuple.getT1(), tuple.getT2()));
                     game.setStartedAt(dateService.getCurrentDate());
                     return gameService.insert(game);
                 })
@@ -62,7 +61,7 @@ public class ScheduledGameExecutor {
                         (images, games) -> images.stream()
                                 .flatMap(image1 -> images.stream()
                                         .filter(image2 -> !image2.equals(image1)
-                                                && (games.isEmpty() || games.stream().noneMatch(game -> Arrays.asList(game.getPlayer1(), game.getPlayer2()).containsAll(List.of(image1, image2)))))
+                                                && (games.isEmpty() || games.stream().noneMatch(game -> game.getPlayers().containsAll(List.of(image1, image2)))))
                                         .map(image2 -> Set.of(image1, image2)))
                                 .collect(Collectors.toSet()))
                 .flatMapIterable(images -> images)

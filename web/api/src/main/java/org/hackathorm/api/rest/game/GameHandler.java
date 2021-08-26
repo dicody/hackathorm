@@ -39,20 +39,8 @@ public class GameHandler {
 
     @NonNull
     public Mono<ServerResponse> statistics(ServerRequest request) {
-        // todo
-        PlayerGameSeriesResponse p1Series = new PlayerGameSeriesResponse();
-        p1Series.setName("p1");
-        p1Series.setSeries(List.of(won(6), lost(3), draw(1)));
-
-        PlayerGameSeriesResponse p2Series = new PlayerGameSeriesResponse();
-        p2Series.setName("p2");
-        p2Series.setSeries(List.of(won(3), lost(6), draw(1)));
-
-        PlayerGameSeriesResponse p3Series = new PlayerGameSeriesResponse();
-        p3Series.setName("p3");
-        p3Series.setSeries(List.of());
         return ServerResponse.ok()
                 .contentType(APPLICATION_JSON)
-                .bodyValue(List.of(p1Series, p2Series, p3Series));
+                .body(gameService.statistics(), PlayerGameSeriesResponse.class);
     }
 }

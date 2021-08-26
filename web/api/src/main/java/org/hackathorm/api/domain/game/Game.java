@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hackathorm.api.conf.MongoConstants.GAMES_COLLECTION_NAME;
@@ -17,8 +18,7 @@ public class Game {
     private String id;
     private long number;
     private String winnerId;
-    private SolutionImage player1;
-    private SolutionImage player2;
+    private List<SolutionImage> players;
     private String info;
     private Date startedAt;
     private Date finishedAt;

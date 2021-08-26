@@ -27,7 +27,7 @@ public class GameResponse {
                 .setWinner(game.getFinishedAt()
                         .map(gameFinished -> game.getWinner().orElse("Tie"))
                         .orElse("No winner yet.."));
-        gameResponse.players = Stream.of(game.getPlayer1(), game.getPlayer2())
+        gameResponse.players = game.getPlayers().stream()
                 .map(GameResponse::imageToString)
                 .collect(Collectors.joining(", "));
         return gameResponse;

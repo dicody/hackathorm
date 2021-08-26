@@ -15,7 +15,7 @@ public class GameMasterClient {
 
     private final DaprClient daprClient;
 
-    public Mono<Void> publishPlayer(GameRequest data) {
+    public Mono<Void> publishGame(GameRequest data) {
         return daprClient.publishEvent(PUBSUB_NAME, GAME_MASTER_PLAYERS_TOPIC, data);
     }
 }
