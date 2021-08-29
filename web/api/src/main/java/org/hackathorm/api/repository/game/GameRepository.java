@@ -11,4 +11,7 @@ import reactor.core.publisher.Flux;
 public interface GameRepository extends ReactiveCrudRepository<Game, String> {
     @Query(value = "{}")
     Flux<Game> get(Pageable pageable);
+
+    @Query("{\"players.submittedBy._id\" : ?0}")
+    Flux<Game> findAllByPlayerId(String playerId);
 }

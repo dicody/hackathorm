@@ -14,6 +14,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static org.hackathorm.api.domain.game.PlayerGameDrawSeries.draw;
 import static org.hackathorm.api.domain.game.PlayerGameLostSeries.lost;
@@ -56,19 +57,44 @@ public class GameService {
     }
 
     public Flux<PlayerGameSeriesResponse> statistics() {
-        // todo
-        PlayerGameSeriesResponse p1Series = new PlayerGameSeriesResponse();
-        p1Series.setName("p1");
-        p1Series.setSeries(List.of(won(6), lost(3), draw(1)));
+        // todo player collection?
+        return repository.findAll()
+                .filter(game -> game.getFinishedAt().isPresent())
+                .flatMap(game -> Flux.fromIterable(game.getPlayers()))
+                .map(image -> image.getSubmittedBy().getId())
+                .flatMap(this::calculateGameSeries);
+    }
 
-        PlayerGameSeriesResponse p2Series = new PlayerGameSeriesResponse();
-        p2Series.setName("p2");
-        p2Series.setSeries(List.of(won(3), lost(6), draw(1)));
+    @NotNull
+    private Mono<PlayerGameSeriesResponse> calculateGameSeries(String playerId) {
+        AtomicLong won = new AtomicLong();
+        AtomicLong lost = new AtomicLong();
+        AtomicLong draw = new AtomicLong();
+        return repository.findAllByPlayerId(playerId)
+                .doOnNext(game -> game.getWinner()
+                        .filter(winner -> winner.equals(playerId))
+                        .ifPresentOrElse(winner -> won.incrementAndGet(),
+                                () -> {
+                                    if (game.getWinner().isPresent())
+                                        lost.incrementAndGet();
+                                    else
+                                        draw.incrementAndGet();
+                                }))
+                // does nothing
+                .reduce((game1, game2) -> game1)
+                .map(game -> {
+                    PlayerGameSeriesResponse series = new PlayerGameSeriesResponse();
+                    series.setName(getPlayerName(playerId, game));
+                    series.setSeries(List.of(won(won.get()), lost(lost.get()), draw(draw.get())));
+                    return series;
+                });
+    }
 
-        PlayerGameSeriesResponse p3Series = new PlayerGameSeriesResponse();
-        p3Series.setName("p3");
-        p3Series.setSeries(List.of());
-
-        return Flux.fromIterable(List.of(p1Series, p2Series, p3Series));
+    @NotNull
+    private String getPlayerName(String playerId, Game game) {
+        return game.getPlayers().stream()
+                .filter(player -> player.getSubmittedBy().getId().equals(playerId)).findFirst()
+                .map(player -> player.getSubmittedBy().getName())
+                .orElseThrow();
     }
 }

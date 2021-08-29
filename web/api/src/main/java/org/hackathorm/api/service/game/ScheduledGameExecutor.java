@@ -43,6 +43,7 @@ public class ScheduledGameExecutor {
                 .flatMap(game -> game)
                 .doOnNext(game -> log.debug("new game created: {}", game))
 
+                // todo .then() break flux
                 .flatMap(gameMasterService::publishNewGame)
                 .doOnNext(game -> log.debug("player published to game master"))
 
