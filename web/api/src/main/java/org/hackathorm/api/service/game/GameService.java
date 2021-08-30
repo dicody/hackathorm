@@ -84,14 +84,14 @@ public class GameService {
                 .reduce((game1, game2) -> game1)
                 .map(game -> {
                     PlayerGameSeriesResponse series = new PlayerGameSeriesResponse();
-                    series.setName(getPlayerName(playerId, game));
+                    series.setName(getPlayersName(playerId, game));
                     series.setSeries(List.of(won(won.get()), lost(lost.get()), draw(draw.get())));
                     return series;
                 });
     }
 
     @NotNull
-    private String getPlayerName(String playerId, Game game) {
+    String getPlayersName(String playerId, Game game) {
         return game.getPlayers().stream()
                 .filter(player -> player.getSubmittedBy().getId().equals(playerId)).findFirst()
                 .map(player -> player.getSubmittedBy().getName())
