@@ -1,5 +1,6 @@
 package org.hackathorm.api.service.game;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hackathorm.api.domain.game.Game;
 import org.hackathorm.api.domain.game.PlayerGameSeriesResponse;
@@ -22,15 +23,11 @@ import static org.hackathorm.api.domain.game.PlayerGameWonSeries.won;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class GameService {
 
     private final GameRepository repository;
     private final DateService dateService;
-
-    public GameService(GameRepository repository, DateService dateService) {
-        this.repository = repository;
-        this.dateService = dateService;
-    }
 
     public Flux<Game> list() {
         return repository.findAll();
